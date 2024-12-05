@@ -1,15 +1,12 @@
 from flask import Flask
-import threading
+from threading import Thread
 
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "Бот жұмыс істеп тұр!"
-
-def run():
-    app.run(host='0.0.0.0', port=8080)
+    return "Бот 24/7 жұмыс істеп тұр!"
 
 def keep_alive():
-    t = threading.Thread(target=run)
+    t = Thread(target=lambda: app.run(host="0.0.0.0", port=5000))
     t.start()
