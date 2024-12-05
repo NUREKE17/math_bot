@@ -1,9 +1,10 @@
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
-import sympy as sp  # sympy кітапханасын қосу
+import sympy as sp
 from threading import Thread
 from keep_alive import keep_alive
+import asyncio
 
 # /start командасына жауап
 async def start(update: Update, context: CallbackContext) -> None:
@@ -49,7 +50,9 @@ def main():
     flask_thread.start()
 
     # Telegram ботын іске қосу
-    asyncio.run(start_bot())
+    loop = asyncio.get_event_loop()  # Қолданыстағы event loop-ты алыңыз
+    loop.create_task(start_bot())   # Telegram ботын event loop-қа қосыңыз
+    loop.run_forever()              # Event loop-ты үздіксіз жұмыс істетіңіз
 
 if __name__ == "__main__":
     main()
